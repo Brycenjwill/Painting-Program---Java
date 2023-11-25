@@ -29,7 +29,16 @@ public class Main extends JFrame {
         this.addKeyListener(keyHandler);
 
         setFocusable(true);
-
+        
+        addWindowListener(new WindowAdapter() { 
+            @Override
+            public void windowClosing(WindowEvent e) 
+            { 
+                
+                System.exit(0);
+                
+            } 
+        }); 
         while(true){
         
         setVisible(true); 
@@ -39,15 +48,10 @@ public class Main extends JFrame {
         cursorx = cursore[0];
         cursory = cursore[1];
 
-        addWindowListener(new WindowAdapter() { 
-            @Override
-            public void windowClosing(WindowEvent e) 
-            { 
-                System.exit(0); 
-            } 
-        }); 
+
         location = getLocationOnScreen();
         }
+
     } 
 
     public void paint(Graphics g) 

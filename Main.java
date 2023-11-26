@@ -17,7 +17,7 @@ public class Main extends JFrame {
     private Color[] drawnColors = new Color[1];
     private Color[] colors = {Color.green, Color.red, Color.black, Color.blue, Color.white};
     Color Curcolor = colors[0];
-
+    private boolean selected = false;
     int dex = 0;
 
     public Main() 
@@ -29,7 +29,7 @@ public class Main extends JFrame {
         this.addKeyListener(keyHandler);
 
         setFocusable(true);
-        
+
         addWindowListener(new WindowAdapter() { 
             @Override
             public void windowClosing(WindowEvent e) 
@@ -39,17 +39,17 @@ public class Main extends JFrame {
                 
             } 
         }); 
-        while(true){
-        
         setVisible(true); 
         setSize(700, 500);
-
+        
+        while(true){
         cursore = TrackCursor(); // Method that returns mouse pos
         cursorx = cursore[0];
         cursory = cursore[1];
 
 
         location = getLocationOnScreen();
+        
         }
 
     } 
@@ -80,16 +80,18 @@ public class Main extends JFrame {
         drawn = tempArray; //Copy temp array over to drawn array
         drawnColors = tempColors;
     }
+        if(selected == true){
         //Finally, draw most recent item from where the cursor is now, and save this item to the end of the 
         g.setColor(Curcolor);
         g.fillOval((int)cursorx-12, (int)cursory-12, 25, 25); //Draw current item
 
         drawnColors[len] = Curcolor; //Add current color to end of used colors array
         drawn[len] = cursore;//Store current cursor position at the end of the drawn array=
-
+        selected = false;
+        System.out.println(cursorx);
+}
     } 
   
-
     public static double[] TrackCursor() 
     { 
         double[] cursor ={0,0};
@@ -109,14 +111,15 @@ public class Main extends JFrame {
         if(cursorx > location.getX() & cursorx < (int)location.getX()+700)
         {
             if(cursory > location.getY() & cursory < (int)location.getY()+500){
-
+                selected = true;
                 repaint();
             }
         }
 
       }
+
     }
-    
+
     private class myKeyHandler extends KeyAdapter
     {
     public void keyPressed(KeyEvent e) {
@@ -133,6 +136,7 @@ public class Main extends JFrame {
 
 
             Curcolor = colors[dex];
+
             repaint();
           }
           if (e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -147,11 +151,13 @@ public class Main extends JFrame {
 
   
             Curcolor = colors[dex];
+
             repaint();
           }
   
       }
     }
+
     public static void main(String[] args) 
     { 
         new Main(); 
